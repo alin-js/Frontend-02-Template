@@ -5,9 +5,9 @@ let currentAttribute = null;
 let stack = [{type:"document",children:[]}];
 
 function emit(token){
-    if(token.type === "text"){
-        return 
-    }
+    // if(token.type === "text"){
+    //     return;
+    // }
     let top = stack[stack.length -1];
     if(token.type == "startTag"){
         let element ={
@@ -28,9 +28,9 @@ function emit(token){
         top.children.push(element);
         element.parent = top;
 
-        if(!token.isSelfClosing){
+        if(!token.isSelfClosing)
             stack.push(element);
-        }
+        
         currentTextNode = null;
     }else if(token.type =="endTag"){
         if(top.tagName != token.tagName){
@@ -52,7 +52,7 @@ function emit(token){
 }
 
 
-const EOF = Symbol("EOF");
+const EOF = Symbol("EOF");  // end if file
 
 function data(c){
     if(c == "<"){
@@ -186,7 +186,7 @@ function singleQuotedAttributeValue(c){
        
     }else {
         currentAttribute.value +=c;
-        return doubleQuotedAttributeValue;
+        return doubleQuotedAttributeValue; 
     }
 }
 
@@ -246,5 +246,6 @@ module.exports.parseHTML = function parseHTML(html){
     for(let c of html){
         state = state(c);
     }
-    state = state(EOF)
+    state = state(EOF);
+    return stack[0];
 }

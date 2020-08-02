@@ -1,7 +1,7 @@
 
 const net = require("net");
 const parser = require("./parser.js");
-const { parse } = require("path");
+// const { parse } = require("path");
 
 class Request{
     // 请求信息
@@ -60,8 +60,6 @@ ${Object.keys(this.headers).map(key => `${key}: ${this.headers[key]}`).join('\r\
 ${this.bodyText}`
     }
 }
-
-
 
 
 class ResponseParser{
@@ -216,6 +214,7 @@ void async function(){
     });
 
     let response = await request.send();
-    
-    let dom = parser.parseHTML(response.body);
+
+    let dom = parser.parseHTML(response.body);  // HTML解析 调用部分
+    console.log(dom);
 }();
